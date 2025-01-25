@@ -10,12 +10,14 @@ public:
     void increase();
     void decrease();
     int getCounter();
-
-    void work();
 };
+
+void work(Counter& counter);
 
 int main()
 {
+    Counter counter;
+
     std::cout << "Do you want to specify the initial value of the counter? Enter yes or no: ";
     std::string inputInitialValue;
     std::cin >> inputInitialValue;
@@ -25,20 +27,19 @@ int main()
         int initialValueCounter{ 1 };
         std::cin >> initialValueCounter;
 
-        Counter counter(initialValueCounter);
-        counter.work();
+        counter = Counter (initialValueCounter);
     }
     else if (inputInitialValue == "no") {
-        Counter counter;
-        counter.work();
+        counter = Counter(1);
     }
     else {
         std::cout << "You entered an incorrect value." << std::endl;
         std::cout << "A counter with an initial value of 1 was automatically created." << std::endl;
 
-        Counter counter;
-        counter.work();
+        counter = Counter(1);
     }
+
+    work(counter);
 }
 
 void Counter::increase() {
@@ -53,7 +54,7 @@ int Counter::getCounter() {
     return counter;
 }
 
-void Counter::work() {
+void work(Counter& counter) {
 
     while (true) {
         std::cout << "Enter the command ('+', '-', '=' or 'x'): ";
@@ -63,15 +64,15 @@ void Counter::work() {
         switch (static_cast<int>(order))  // ASCII "+": 43, "-": 45, "=": 61, "x": 120
         {
         case 43: {
-            increase();
+            counter.increase();
             break;
         };
         case 45: {
-            decrease();
+            counter.decrease();
             break;
         };
         case 61: {
-            std::cout << getCounter() << std::endl;
+            std::cout << counter.getCounter() << std::endl;
             break;
         };
         case 120: {
